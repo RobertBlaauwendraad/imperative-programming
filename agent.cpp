@@ -5,35 +5,20 @@ void test_agent() {
 
 }
 
-// First checks if on a ball before picking it up
-void safe_get_ball() {
-  if(on_ball()) {
+// Pick up ball and step, repeat until in front of wall then turn right
+void get_string_of_balls() {
+  while(!in_front_of_wall()) {
     get_ball();
-  }
-}
-
-// Gets all balls in a straight line until a wall is reached
-// Skips last ball because it will be picked after turning
-void get_all_balls_until_wall() {
-  while (!in_front_of_wall())
-  {
-    safe_get_ball();
     step();
   }
+  turn_right();
 }
 
-// Picks up all balls in a straight line and rotates.
-// Repeats this 4 times for 4 walls
-void loop_walls() {
-  for (int i = 0; i < 4; i++) {
-    get_all_balls_until_wall();
-    turn_right();
-  }
-}
-
-// Calls the loop_walls function as start
+// get string of balls, repeat until all balls are picked up
 void string_agent() {
-  loop_walls();
+  while(on_ball()){
+    get_string_of_balls();
+  }
 }
 
 void chaos_agent() {
