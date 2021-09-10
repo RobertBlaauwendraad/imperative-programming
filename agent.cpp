@@ -91,8 +91,43 @@ void chaos_agent() {
     return_to_starting_position();
 }
 
+// Travel to middle rectangle
+void travel_to_middle() {
+    travel_to_first_ball();
+    turn_right();
+    travel_to_wall();
+    turn_left();
+}
 
+// Checks if Charles is next to a wall
+bool is_next_to_wall() {
+    turn_right();
+    return in_front_of_wall();
+}
 
+// Puts a ball in corner and steps forward so Charles is in same position as
+// when he started the first loop
+void prepare_next_loop() {
+    put_ball();
+    step();
+}
+
+// Main agent
 void block_agent() {
-
+    // First travel to middle rectangle
+    travel_to_middle();
+    // Loops 4 times because rectangle has 4 walls
+    for (int i = 0; i < 4; i++)
+    {
+        // When next to wall turn back, put a ball and step forward
+        while (is_next_to_wall())
+        {
+            turn_left();
+            put_ball();
+            step();
+        }
+        prepare_next_loop();
+    }
+    // Return to the starting position
+    return_to_starting_position();
 }
