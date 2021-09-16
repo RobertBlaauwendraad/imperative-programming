@@ -80,12 +80,6 @@ void travel_to_wall() {
   }
 }
 
-// travel to start of first column
-void prepare_first_column() {
-  step();
-  turn_right();
-}
-
 // put ball until in front of wall
 void fill_column_with_balls() {
   while (!in_front_of_wall()) {
@@ -103,19 +97,18 @@ void return_start_column() {
 }
 
 void cave_agent() {
-  prepare_first_column();
-  // Keeps track if Charles is in last row
-  bool last_row = false;
-  while(!last_row) {
+  // Step to first column
+  step();
+  // While not in last column put fill it with balls and travel to next
+  while(!in_front_of_wall()) {
+    turn_right();
     fill_column_with_balls();
     return_start_column();
-    // Walk to next column, also check if is in last column
     turn_right();
     step();
-    last_row = in_front_of_wall();
-    turn_right();
   }
-  // return to starting position
+  // Travel to next floor/ground
+  turn_right();
   travel_to_wall();
   turn_right();
 }
