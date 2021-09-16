@@ -1,75 +1,82 @@
-#include "framework/charles.h"
+#include "framework/charles.h"  
 #include "assignments/assignment2.h"
 
 void test_agent() {
 
 }
 
-//go to the location left of the previous ball
-void look_left(){
-    turn_left();
-    step();
+void back_to_path() {
+  turn_right();
+  turn_right();
+  step();
 }
 
-//go to the location right of the previous ball
-void look_right(){
+// Follows string of balls and ends on last ball reverted
+void follow_string_of_balls()
+{
+  while (on_ball() && !in_front_of_wall())
+  {
+    step();
+  }
+  // If stopped because string of ball ended return to last ball
+  if(!on_ball()) {
+    back_to_path();
+    // Else revert Charles for same ending
+  } else {
     turn_right();
     turn_right();
-    step();
-    step();
+  }
 }
 
-//go back to previous ball's location
-void to_origin(){
-    turn_right();
-    turn_right();
+// Travel to beginning of next string or stop no ball or stop in front of wall
+void rotate_next_direction() {
+  turn_right();
+  // If not in front of wall check on ball
+  if(!in_front_of_wall()) {
     step();
-    turn_right();
-    turn_right();
-}
-
-//as long as Charles is on a ball it picks it up and step forward
-void get_balls(){
-    while(on_ball()){
-        get_ball();
+    // If wrong direction walk back
+    if(!on_ball()) {
+      turn_right();
+      turn_right();
+      step();
+      // If not in front of wall step to new string
+      if(!in_front_of_wall()) {
         step();
+      }
     }
+  // If in front of wall walk to opposite direction
+  } else {
+    turn_right();
+    turn_right();
+    if(!in_front_of_wall()) {
+      step();
+    }
+  }
 }
 
-bool done = false;
-
-//tries to find the next direction of the ball trail
-//by going back to previous ball and looking left and right of it
-void find_direction(){
-    to_origin();
-    look_left();
-    if(on_ball()){
-        get_balls();
-    } else {
-        look_right();        
-        if(on_ball()){
-            get_balls();
-        } else {
-            while(!north()){
-                turn_right();
-            }
-            turn_right();
-            //only true when there is no ball neither left or right
-            //from the last ball, so when the trail is done
-            done = true;
-        }
-    }
+// Rotate to the east
+void rotate_east()
+{
+  while (!north())
+  {
+    turn_right();
+  }
+  turn_right();
 }
-
-
 
 void path_agent() {
-    while(!done){
-        if(on_ball()){
-            get_balls();
-        } 
-        find_direction();
-    } 
+  // End of path if either Charles is not on ball or in front of wall
+  while (on_ball() && !in_front_of_wall())
+  {
+    follow_string_of_balls();
+    rotate_next_direction();
+  }
+  // If not on ball walk back to path
+  if(!on_ball()) {
+    back_to_path();
+  }
+  // Make sure Charles always ends up facing east
+  rotate_east();
 }
 
 
@@ -86,7 +93,7 @@ void fill_column_with_balls() {
     put_ball();
     step();
   }
-  put_ball();  
+  put_ball();
 }
 
 // return to the start of column
@@ -107,7 +114,7 @@ void cave_agent() {
     turn_right();
     step();
   }
-  // Travel to next floor/ground
+  // Travel to next floor/grounds
   turn_right();
   travel_to_wall();
   turn_right();
