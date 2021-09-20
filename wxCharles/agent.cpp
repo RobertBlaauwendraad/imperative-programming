@@ -120,10 +120,83 @@ void cave_agent() {
   turn_right();
 }
 
-void find_center_agent() {
-
+// Place balls until in front of a wall, keep track of how many balls placed
+int placeBalls() {
+  int ballsPlaced = 0;
+  while(!in_front_of_wall()) {
+    if (!on_ball()) {
+      put_ball();
+    }
+    step();
+    ballsPlaced++;
+  }
+  put_ball();
+  return ballsPlaced;
 }
 
-void clean_up_agent() {
+// Walk amount of steps
+void walkAmountOfSteps(int steps)
+{
+  for (int i = 0; i < steps; i++)
+  {
+    step();
+  }
+}
 
+void find_center_agent() {
+  // Do the same for x and y axis
+  for (int i = 0; i < 2; i++)
+  {
+    // Define how many steps needed until the middle is reached
+    int length = placeBalls();
+    int stepsUntilMiddle = ceil(length / 2);
+    // Return to the middle of current axis
+    turn_left();
+    turn_left();
+    walkAmountOfSteps(stepsUntilMiddle);
+    // Prepare for next axis
+    turn_left();
+  }
+  // Finish oriented east
+  rotate_east();
+}
+
+// Pick up balls until wall and keep track of how many balls are picked up
+int ballsUntilWall() {
+  int ballsPickedUp = 0;
+  while (!in_front_of_wall())
+  {
+    step();
+    get_ball();
+    ballsPickedUp++;
+  }
+  return ballsPickedUp;
+}
+
+// Get a line of balls but keep the middle one there
+// This can be done because Charles starts at the middle of the line
+int getLineOfBallsExpectMiddle() {
+  turn_right();
+  int halfLength = ballsUntilWall();
+  turn_left();
+  turn_left();
+  walkAmountOfSteps(halfLength);
+  ballsUntilWall();
+  return halfLength;
+}
+
+// Walk to a certain amount of steps in the x and y directions (both positive)
+void walkToPoint(int x, int y) {
+  rotate_east();
+  walkAmountOfSteps(x);
+  turn_right();
+  walkAmountOfSteps(y);
+}
+
+// Clean the y and x axes and return to the middle then rotate east
+void clean_up_agent() {
+  int y = getLineOfBallsExpectMiddle();
+  int x = getLineOfBallsExpectMiddle();
+  walkToPoint(x, y);
+  rotate_east();
 }
