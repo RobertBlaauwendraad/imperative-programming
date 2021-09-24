@@ -34,11 +34,20 @@ void inclusion(double epsilon, double v) {
 ********************************************************************/
 void newtonraphson(double epsilon, double v) {
     //implement this function
+    double xn = (v > 1) ? v : 1;
+
+    while(abs((xn * xn) - v) >= epsilon){
+        double fx = xn * xn - v;
+        double fpx = 2 * xn;
+        xn = xn - (fx/fpx);
+    }
+    cout << "Newton-Raphson square root of " << v << " is " << xn << " for epsilon " << epsilon << endl;
 }
 
 int main() {
     
     inclusion(0.1, 20);
+    newtonraphson(0.02, 8);
 
     return 0;
 }
