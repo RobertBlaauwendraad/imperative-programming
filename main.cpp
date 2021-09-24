@@ -9,14 +9,20 @@ using namespace std;
 void inclusion(double epsilon, double v) {
     double an = 0;
     double bn = (v > 1) ? v : 1;
-    double xn = (an + bn) / 2; 
+    double xn = (an + bn) / 2;
+    int n = 0;
     
     //Check if a0 or b0 are already the square root of v
-    if(an * an == v)
-        cout << "Inclusion square root of " << v << " is " << an << endl;
-    if(bn * bn == v)
-        cout << "Inclusion square root of " << v << " is " << bn << endl;
-
+    if(an * an == v) {
+        cout << "Inclusion square root of " << v << " is " << an << '\t' 
+            << n << '\t' << an << '\t' << xn << '\t' << bn << endl;
+        return;
+    } else if(bn * bn == v) {
+        cout << "Inclusion square root of " << v << " is " << bn << '\t'
+             << n << '\t' << an << '\t' << xn << '\t' << bn << endl;
+        return;
+    }
+    
     //This while loop runs as long as the Halting Criterion is not met
     while(abs((xn * xn) - v) >= epsilon){ 
         if((xn*xn) < v){
@@ -25,8 +31,11 @@ void inclusion(double epsilon, double v) {
             bn = xn;
         }        
         xn = (an + bn) / 2;
+        n++;
     }
-    cout << "Inclusion square root of " << v << " is " << xn << " for epsilon " << epsilon << endl;
+    cout << "Inclusion square root of " << v << " is " << xn << " for epsilon "
+        << epsilon << '\t'  << n << '\t' << an << '\t' << xn << '\t' << bn << endl;
+    return;
 }
 
 /********************************************************************
@@ -35,19 +44,21 @@ void inclusion(double epsilon, double v) {
 void newtonraphson(double epsilon, double v) {
     //implement this function
     double xn = (v > 1) ? v : 1;
+    int n = 0;
 
     while(abs((xn * xn) - v) >= epsilon){
         double fx = xn * xn - v;
         double fpx = 2 * xn;
         xn = xn - (fx/fpx);
+        n++;
     }
-    cout << "Newton-Raphson square root of " << v << " is " << xn << " for epsilon " << epsilon << endl;
+    cout << "Newton-Raphson square root of " << v << " is " << xn << " for epsilon " 
+        << epsilon << '\t' << n << '\t' << xn << endl;
 }
 
 int main() {
-    
     inclusion(0.1, 20);
-    newtonraphson(0.02, 8);
+    newtonraphson(0.1, 20);
 
     return 0;
 }
@@ -66,7 +77,7 @@ a0 = 0
 b0 = 1
 b0 * b0 = v, b0 is the result
 
-----------
+---------
 
 v = 0.5
 a0 = 0
@@ -94,7 +105,7 @@ x1 = 4
 |4 * 4 - 16| = 0
 0 <= 0.1 so 4 is the result
 
-------------
+---------
 
 v = 20
 a0 = 0
@@ -128,4 +139,29 @@ x8 = 4.47265175
 |4.47265175*4.47265175-20|=0.0004... <= 0.1
 So result is 4.47265175
 
+********************************************************************/
+
+/********************************************************************
+ * Desktop test part 4
+ * ---------
+ * 
+ * v = 0
+ * Inclusion square root of 0 is 0 0       0       0.5     1
+ * Newton-Raphson square root of 0 is 0.25 for epsilon 0.1 2       0.25
+ * 
+ * v = 1
+ * Inclusion square root of 1 is 1 0       0       0.5     1
+ * Newton-Raphson square root of 1 is 1 for epsilon 0.1    0       1
+ * 
+ * v = 0.5
+ * Inclusion square root of 0.5 is 0.75 for epsilon 0.1    1       0.5     0.75    1
+ * Newton-Raphson square root of 0.5 is 0.75 for epsilon 0.1       1       0.75
+ * 
+ * v = 16
+ * Inclusion square root of 16 is 4 for epsilon 0.1        1       0       4       8
+ * Newton-Raphson square root of 16 is 4.00226 for epsilon 0.1     4       4.00226
+ * 
+ * v = 20
+ * Inclusion square root of 20 is 4.47266 for epsilon 0.1  9       4.45312 4.47266 4.49219
+ * Newton-Raphson square root of 20 is 4.47831 for epsilon 0.1     4       4.47831
 ********************************************************************/
