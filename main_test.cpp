@@ -39,7 +39,6 @@ TEST (part_one, number_of_days_in_month)
   EXPECT_EQ (number_of_days_in_month (2021, November), 30);
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION show_carnival
 TEST (part_two, carnival)
 {
   EXPECT_EQ (show_carnival (4, April, 2010), "14-2");
@@ -55,9 +54,7 @@ TEST (part_two, carnival)
   EXPECT_EQ (show_carnival (12, April, 2020), "23-2");
   EXPECT_EQ (show_carnival (4, April, 2021), "14-2");
 }
-END OF COMMENT */
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION show_good_friday
 TEST (part_two, good_friday)
 {
   EXPECT_EQ (show_good_friday (4, April, 2010), "2-4");
@@ -73,9 +70,7 @@ TEST (part_two, good_friday)
   EXPECT_EQ (show_good_friday (12, April, 2020), "10-4");
   EXPECT_EQ (show_good_friday (4, April, 2021), "2-4");
 }
-END OF COMMENT */
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION show_easter
 TEST (part_two, easter)
 {
   EXPECT_EQ (show_easter (4, April, 2010), "4-4");
@@ -91,9 +86,7 @@ TEST (part_two, easter)
   EXPECT_EQ (show_easter (12, April, 2020), "12-4");
   EXPECT_EQ (show_easter (4, April, 2021), "4-4");
 }
-END OF COMMENT */
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION show_whitsuntide
 TEST (part_two, whitsuntide)
 {
   EXPECT_EQ (show_whitsuntide (4, April, 2010), "23-5");
@@ -109,9 +102,7 @@ TEST (part_two, whitsuntide)
   EXPECT_EQ (show_whitsuntide (12, April, 2020), "31-5");
   EXPECT_EQ (show_whitsuntide (4, April, 2021), "23-5");
 }
-END OF COMMENT */
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION show_ascension_day
 TEST (part_two, ascension_day)
 {
   EXPECT_EQ (show_ascension_day (4, April, 2010), "13-5");
@@ -127,4 +118,3 @@ TEST (part_two, ascension_day)
   EXPECT_EQ (show_ascension_day (12, April, 2020), "21-5");
   EXPECT_EQ (show_ascension_day (4, April, 2021), "13-5");
 }
-END OF COMMENT */
