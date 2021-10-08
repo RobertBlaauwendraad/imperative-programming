@@ -44,7 +44,6 @@ struct OTP_predef_enc : public testing::Test{
   }
 };
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION use_OTP
 TEST_F(OTP_predef_enc, use_OTP_1)
 {
     string valueout = "output1.txt";
@@ -136,4 +135,3 @@ TEST_F(OTP_predef_enc, use_OTP_65535)
     }
     EXPECT_TRUE(match);
 }
-END OF COMMENT */

@@ -54,8 +54,36 @@ char rotate_char (char a, int r, Action action)
 bool open_input_and_output_file (ifstream& infile, ofstream& outfile)
 {
 //  Pre-condition:
+    assert ( true );
+/*  Post-condition:
+    if result is true input and output files are opened
+*/
 
-//  Post-condition:
+    string infile_name;
+    string outfile_name;
+    cout << "Please enter the input file name (without symbols): " << endl;
+    cin >> infile_name;
+    cout << "Please enter the output file name (without symbols): " << endl;
+    cin >> outfile_name;
+
+    if(infile_name == outfile_name) {
+        cout << "Input and output file name must be different.\n" << endl;
+        return false;
+    }
+
+    infile.open(infile_name);
+    if (infile.fail()) {
+        cout << infile_name << " could not be opened\n" << endl;
+        return false;
+    }
+
+    outfile.open(outfile_name);
+    if (outfile.fail()) {
+        cout << outfile_name << " could not be openend\n" << endl;
+        return false;
+    }
+
+    cout << "Files opened successfully\n" << endl;
     return true;
 }
 
@@ -92,9 +120,22 @@ int initial_encryption_value ()
 void use_OTP (ifstream& infile, ofstream& outfile, Action action, int initial_value)
 {
 //  Pre-condition:
-
-//  Post-condition:
-
+    assert( infile.is_open() && outfile.is_open() );
+/*  Post-condition:
+    Encrypts/decrypts input file to output file
+*/
+    char a;
+    char b;
+    infile.get(a);
+    int r = initial_value;
+    initialise_pseudo_random(r);
+    while (!infile.fail())
+    {
+        b = rotate_char(a, r, action);
+        outfile.put(b);
+        infile.get(a);
+        r = next_pseudo_random_number();
+    }
 }
 
 #ifndef TESTING
