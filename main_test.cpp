@@ -5,7 +5,6 @@
 
 using namespace std;
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION rotate-char
 TEST(part_one, rotateChar)
 {
   for (int i = 33; i < 127; i++)
@@ -14,7 +13,6 @@ TEST(part_one, rotateChar)
     EXPECT_EQ (rotate_char (rotate_char (i, random, Encrypt), random, Decrypt), i);
   }
 }
-END OF COMMENT */
 
 /* This code is used to unit test functions that operate on streams. You do not
    need to understand what it is doing. */

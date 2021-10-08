@@ -36,8 +36,18 @@ int next_pseudo_random_number ()
 char rotate_char (char a, int r, Action action)
 {
 //  Pre-condition:
-
-//  Post-condition:
+    assert ( r >= 0 );
+/*  Post-condition:
+    result is the encryption/decryption of a single character
+*/
+    if (a >= 32)
+    {
+        if(action == Action::Encrypt) {
+            a = (a - 32 + (r % (128 - 32)) + (128 - 32)) % (128 - 32) + 32;
+        } else if (action == Action::Decrypt) {
+            a = (a - 32 - (r % (128 - 32)) + (128 - 32)) % (128 - 32) + 32;
+        }
+    }
     return a;
 }
 
