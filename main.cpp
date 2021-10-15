@@ -76,27 +76,91 @@ void show_universe (Cell universe [ROWS][COLUMNS])
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 //  Part 2: the next generation
 void next_generation (Cell now [ROWS][COLUMNS], Cell next [ROWS][COLUMNS])
 {
     // pre-conditions, post-conditions, implementation
+    for (int i = 1; i <= NO_OF_ROWS; i++)
+    {
+        for (int j = 1; j <= NO_OF_COLUMNS; j++)
+        {
+            int neighbour_coordinates[8][2] = {
+                {i - 1, j - 1},
+                {i - 1, j},
+                {i - 1, j + 1},
+                {i, j - 1},
+                {i, j + 1},
+                {i + 1, j - 1},
+                {i + 1, j},
+                {i + 1, j + 1}
+            };
+            int live_neighbours = 0;
+            for(int m = 0; m < 8; m++){
+                Cell neighbour = now[neighbour_coordinates[m][0]][neighbour_coordinates[m][1]];
+                if (neighbour == (Cell)1) {
+                    live_neighbours++;
+                }
+            }
+
+            if (now[i][j] == (Cell)1) {
+                if(live_neighbours == 2 || live_neighbours == 3) {
+                    next[i][j] = (Cell)1;
+                } else {
+                    next[i][j] = (Cell)0;
+                }
+            } else {
+                if (live_neighbours == 3)
+                {
+                    next[i][j] = (Cell)1;
+                } else {
+                    next[i][j] = (Cell)0;
+                }
+            }
+        }
+    }
 }
 
 #ifndef TESTING
 int main ()
 {
     Cell universe[ROWS][COLUMNS];
+    Cell copy[ROWS][COLUMNS];
+
     ifstream inputfile(FILENAME);
     if(inputfile.fail()) {
         cout << FILENAME << " could not be opened\n";
         return 1;
     }
 
+
+
     read_universe_file(inputfile, universe);
-    
     show_universe(universe);
+
+    for (int i = 0; i < ROWS; i++)
+    {
+        for (int j = 0; j < COLUMNS; j++)
+        {
+            copy[i][j] = universe[i][j];
+        }
+    }
+
+    for (int m = 0; m < 4; m++)
+    {
+        next_generation(universe, copy);
+        show_universe(copy);
+        for (int i = 0; i < ROWS; i++)
+        {
+            for (int j = 0; j < COLUMNS; j++)
+            {
+                universe[i][j] = copy[i][j];
+            }
+        }
+    }
+
     return 0;
 }
 #endif
