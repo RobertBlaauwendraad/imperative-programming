@@ -82,7 +82,11 @@ void show_universe (Cell universe [ROWS][COLUMNS])
 //  Part 2: the next generation
 void next_generation (Cell now [ROWS][COLUMNS], Cell next [ROWS][COLUMNS])
 {
-    // pre-conditions, post-conditions, implementation
+    // Precondition:
+    assert(true);
+    /* Post-condition:
+    * Calculate the next generation of the current universe 
+    */
     for (int i = 1; i <= NO_OF_ROWS; i++)
     {
         for (int j = 1; j <= NO_OF_COLUMNS; j++)
@@ -134,8 +138,6 @@ int main ()
         cout << FILENAME << " could not be opened\n";
         return 1;
     }
-
-
 
     read_universe_file(inputfile, universe);
     show_universe(universe);
