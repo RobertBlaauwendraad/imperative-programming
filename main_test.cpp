@@ -124,18 +124,14 @@ TEST_F(sorting, selection_sort)
     EXPECT_TRUE(is_sorted(testDBcopy));
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION bubble_sort
 TEST_F(sorting, bubble_sort)
 {
     bubble_sort(testDBcopy);
     EXPECT_TRUE(is_sorted(testDBcopy));
 }
-END OF COMMENT */
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION heap_sort
 TEST_F(sorting, heap_sort)
 {
     heap_sort(testDBcopy);
     EXPECT_TRUE(is_sorted(testDBcopy));
 }
-END OF COMMENT */

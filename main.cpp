@@ -208,14 +208,14 @@ int max_value_at (const vector<El>& data, Slice s)
 /*  Postcondition:
     data[result] is the maximum of every element in data[first (s)] ... data[last (s)]
 */
-    if (first(s) == last(s)) return last(s);
-    int largest = first(s);
-    for (int i = first(s) + 1; i != last(s); ++i) {
-        if(data[largest] < data[i]) {
-            largest = i;
+    int maximum = first(s);
+    for (int i = first(s)+1; i < last(s); i++) {
+        if (data[i] > data[maximum])
+        {
+            maximum = i;
         }
-    } 
-    return largest;
+    }
+    return maximum;
 }
 
 bool is_sorted (const vector<El>& data, Slice s)
@@ -278,7 +278,7 @@ void selection_sort(vector<El>& data)
 /*  Postcondition:
     data is sorted in increasing order, according to < and == on El (don't forget to implement operator< and operator==)
 */
-    for (int i = 0; i < size(data); i++)
+    for (int i = size(data); i > 1; i--)
     {
         int max = max_value_at(data, mkSlice(0, i));
         swap(data[max], data[i-1]);
@@ -297,7 +297,16 @@ bool bubble (vector<El>& data, Slice unsorted)
     immediate pairs in data with slice unsorted are swapped if left element is larger than right element, and result is 
     true only if this is done at least once (don't forget to implement operator< and operator==)
 */
-    //implement this function
+    bool swapped = false;
+
+    for (int i = 0; i < last(unsorted); i++)
+    {
+        if(data[i] > data[i+1]) {
+            swap(data[i], data[i+1]);
+            swapped = true;
+        }
+    }
+    return swapped;
 }
 
 void bubble_sort(vector<El>& data)
@@ -306,7 +315,13 @@ void bubble_sort(vector<El>& data)
 /*  Postcondition:
     data is sorted in increasing order, according to < and == on El (don't forget to implement operator< and operator==)
 */
-    //implement this function
+    int unsorted = size(data);
+    bool swapped = true;
+    while (swapped)
+    {
+        swapped = bubble(data, mkSlice(0, unsorted));
+        unsorted--;
+    }
 }
 
 /**********************************************************************************************************
@@ -365,7 +380,14 @@ bool is_a_heap (const vector<El>& data, Slice s)
 /*  Postcondition:
     result is true only if all existing children in slice s of data have a value that is not greater than their parent
 */
-    //implement this function
+    for (int i = first(s); i < parent(last(s)); i++)
+    {
+        if (left_child(i) <= last(s) && data[i] < data[left_child(i)]) 
+            return false;
+        if (right_child(i) <= last(s) && data[i] < data[right_child(i)])
+            return false;
+    }
+    return true;
 }
 
 void push_up ( vector<El>& data, int elem )
@@ -374,7 +396,12 @@ void push_up ( vector<El>& data, int elem )
 /*  Postcondition:
     data[0] ... data[elem] is a heap
 */
-    //implement this function
+    while (elem > 0 & data[parent(elem)] < data[elem])
+    {
+        swap(data[parent(elem)], data[elem]);
+        elem = parent(elem);
+    }
+    
 }
 
 void build_heap ( vector<El>& data )
@@ -383,6 +410,10 @@ void build_heap ( vector<El>& data )
 /*  Postcondition:
     data is a heap structure
 */
+    for (int i = 1; i < size(data)-1; i++)
+    {
+        push_up(data, i);
+    }
 }
 
 void push_down (vector<El>& data, int unsorted)
@@ -391,16 +422,33 @@ void push_down (vector<El>& data, int unsorted)
 /*  Postcondition:
     data[0] ... data[unsorted] is a heap
 */
-    //implement this function
+    int i = 0;
+    while (data[i] < data[left_child(i)] || data[i] < data[right_child(i)])
+    {
+        int j;
+        if (data[left_child(i)] > data[right_child(i)])
+            j = left_child(i);
+        else 
+            j = right_child(i);
+        swap(data[i], data[j]);
+        i = j;
+    }
 }
 
 void pick_heap (vector<El>& data)
 {// Precondition:
-    is_a_heap (data, mkSlice (data));
+    assert(is_a_heap (data, mkSlice (data)));
 /*  Postcondition:
     data is sorted in increasing order, according to < and == on El (don't forget to implement < and ==)
 */
-    //implement this function
+    int unsorted = size(data)-1;
+    while (unsorted > 0)
+    {
+        swap(data[0], data[unsorted]);
+        unsorted--;
+        push_down(data, unsorted);
+    }
+    
 }
 
 void heap_sort(vector<El>& data)
@@ -409,7 +457,8 @@ void heap_sort(vector<El>& data)
 /*  Postcondition:
     data is sorted in increasing order, according to < and == on El (don't forget to implement < and ==)
 */
-    //implement this function
+    build_heap(data);
+    pick_heap(data);
 }
 
 
