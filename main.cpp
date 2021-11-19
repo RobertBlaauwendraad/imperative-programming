@@ -380,7 +380,7 @@ bool is_a_heap (const vector<El>& data, Slice s)
 /*  Postcondition:
     result is true only if all existing children in slice s of data have a value that is not greater than their parent
 */
-    for (int i = first(s); i < parent(last(s)); i++)
+    for (int i = first(s); i < parent(last(s)) + 1; i++)
     {
         if (left_child(i) <= last(s) && data[i] < data[left_child(i)]) 
             return false;
@@ -396,7 +396,7 @@ void push_up ( vector<El>& data, int elem )
 /*  Postcondition:
     data[0] ... data[elem] is a heap
 */
-    while (elem > 0 & data[parent(elem)] < data[elem])
+    while (elem > 0 && data[parent(elem)] < data[elem])
     {
         swap(data[parent(elem)], data[elem]);
         elem = parent(elem);
@@ -410,7 +410,7 @@ void build_heap ( vector<El>& data )
 /*  Postcondition:
     data is a heap structure
 */
-    for (int i = 1; i < size(data)-1; i++)
+    for (int i = 1; i < size(data); i++)
     {
         push_up(data, i);
     }
@@ -448,7 +448,6 @@ void pick_heap (vector<El>& data)
         unsorted--;
         push_down(data, unsorted);
     }
-    
 }
 
 void heap_sort(vector<El>& data)
