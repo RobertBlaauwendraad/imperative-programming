@@ -48,7 +48,6 @@ vector<Track> testDB = {{"Adele",                          "19",                
                        ,{"The decemberists",               "The tain",                    2005,1, "The tain (parts i-iv)",       "progressive,experimental,folk,rock",{18,35},"U.S.A."}
                        } ;
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED operator == and < ofr Tracks
 TEST(operators, track_equals1)
 {
     Track lhs = testDB[rand()%40];
@@ -90,7 +89,6 @@ TEST(operators, track_less_then3)
     Track rhs = testDB[23];
     EXPECT_TRUE(lhs < rhs);
 }
-END OF COMMENT */
 
 struct sorting : public testing::Test{
     vector<Track> testDBcopy;
@@ -114,13 +112,11 @@ struct sorting : public testing::Test{
     }
 };
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION insertion_sort
 TEST_F(sorting, insertion_sort)
 {
     insertion_sort(testDBcopy);
     EXPECT_TRUE(is_sorted(testDBcopy));
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION selection_sort
 TEST_F(sorting, selection_sort)

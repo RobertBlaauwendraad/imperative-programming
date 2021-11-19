@@ -217,7 +217,14 @@ bool is_sorted (const vector<El>& data, Slice s)
 /*  post-condition:
     result is true if data[first (s)] <= data[first (s) + 1] ... data[last(s)-1] <= data[last(s)]
 */
-    //implement this function
+    if (size(data) < 2) return true;
+
+    for (int i = first(s); i < last(s); i++)
+    {
+        if(data[i] > data[i + 1])
+            return false;
+    }
+    return true;
 }
 
 void insert (vector<El>& data, Slice s)
@@ -226,7 +233,12 @@ void insert (vector<El>& data, Slice s)
 /*  Postcondition:
     data[last(s)] is moved in data[first(s)]...data[last(s)] and is_sorted (data, s)
 */
-    //implement this function
+    int i = last(s) - 1;
+    while (i >= first(s) && data[i] > data[i+1])
+    {
+        swap(data[i], data[i+1]);
+        i--;
+    }
 }
 
 
@@ -241,7 +253,11 @@ void insertion_sort(vector<El>& data)
 /*  Postcondition:
     data is sorted in increasing order, according to < and == on El (don't forget to implement operator< and operator==)
 */
-    //implement this function
+    int sorted = 1;
+    while(sorted < size(data)) {
+        sorted++;
+        insert(data, mkSlice(0, sorted));
+    }
 }
 
 /**********************************************************************************************************
