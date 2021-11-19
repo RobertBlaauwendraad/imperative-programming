@@ -123,7 +123,8 @@ bool operator== (const Track& a, const Track& b)
         a.track == b.track &&
         a.title == b.title &&
         a.tags == b.tags &&
-        a.length == b.length &&
+        a.time.minutes == b.time.minutes &&
+        a.time.seconds == b.time.seconds &&
         a.country == b.country){
         return true;
     }
@@ -139,7 +140,37 @@ bool operator< (const Track& a, const Track& b)
     check the assignment for the proper definition of < on Tracks
 */
 
-    if(a.artist  
+    if(a == b){
+        return false;
+    }
+
+    if(a.artist < b.artist){
+        return true;
+    } 
+
+    if(a.artist > b.artist){
+        return false;
+    }
+
+    if(a.artist == b.artist){
+        if(a.cd < b.cd){
+            return true;
+        } 
+
+        if(a.cd > b.cd){
+            return false;
+        }
+
+        if(a.cd == b.cd){
+                if(a.track < b.track){
+                    return true;
+                }
+                if(a.track > b.track){
+                    return false;
+                }
+        }
+    }
+    return false;
 
 }
 
