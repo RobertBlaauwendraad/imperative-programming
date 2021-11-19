@@ -208,7 +208,14 @@ int max_value_at (const vector<El>& data, Slice s)
 /*  Postcondition:
     data[result] is the maximum of every element in data[first (s)] ... data[last (s)]
 */
-    //implement this function
+    if (first(s) == last(s)) return last(s);
+    int largest = first(s);
+    for (int i = first(s) + 1; i != last(s); ++i) {
+        if(data[largest] < data[i]) {
+            largest = i;
+        }
+    } 
+    return largest;
 }
 
 bool is_sorted (const vector<El>& data, Slice s)
@@ -271,7 +278,11 @@ void selection_sort(vector<El>& data)
 /*  Postcondition:
     data is sorted in increasing order, according to < and == on El (don't forget to implement operator< and operator==)
 */
-    //implement this function
+    for (int i = 0; i < size(data); i++)
+    {
+        int max = max_value_at(data, mkSlice(0, i));
+        swap(data[max], data[i-1]);
+    };
 }
 
 /**********************************************************************************************************

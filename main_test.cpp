@@ -118,13 +118,11 @@ TEST_F(sorting, insertion_sort)
     EXPECT_TRUE(is_sorted(testDBcopy));
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION selection_sort
 TEST_F(sorting, selection_sort)
 {
     selection_sort(testDBcopy);
     EXPECT_TRUE(is_sorted(testDBcopy));
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION bubble_sort
 TEST_F(sorting, bubble_sort)
