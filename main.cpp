@@ -209,7 +209,7 @@ int max_value_at (const vector<El>& data, Slice s)
     data[result] is the maximum of every element in data[first (s)] ... data[last (s)]
 */
     int maximum = first(s);
-    for (int i = first(s)+1; i < last(s); i++) {
+    for (int i = first(s)+1; i < last(s)+1; i++) {
         if (data[i] > data[maximum])
         {
             maximum = i;
