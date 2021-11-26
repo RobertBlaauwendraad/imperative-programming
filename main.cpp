@@ -1,3 +1,4 @@
+#define NDEBUG
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,6 +8,9 @@
 #include <cassert>
 
 using namespace std;
+
+int COUNT = 0;
+const int NO_TEST_CASES = 13;
 
 struct Length
 {
@@ -24,6 +28,18 @@ struct Track
 	string tags;                            // tags
 	Length time;							// playing time
 	string country;                         // main countr(y/ies) of artist
+};
+
+struct TrackDisplay
+{
+    bool showArtist;  // if true, show name of artist
+    bool showAlbum;   // if true, show cd title
+    bool showYear;    // if true, show year of appearance
+    bool showTrack;   // if true, show track number
+    bool showTitle;   // if true, show track title
+    bool showTags;    // if true, show tags
+    bool showLength;  // if true, show playing time
+    bool showCountry; // if true, show countr(y/ies) of artist
 };
 
 typedef Track El;                           // as explained in lecture, define algorithms on El
@@ -116,16 +132,14 @@ bool operator== (const Track& a, const Track& b)
 /*  Postcondition:
     returns true only if all selector values of a are equal to their counterparts of b
 */
-
+    COUNT++;
     if (a.artist == b.artist &&
         a.cd == b.cd &&
         a.year == b.year &&
         a.track == b.track){
         return true;
     }
-
     return false;
-
 }
 
 bool operator< (const Track& a, const Track& b)
@@ -134,7 +148,7 @@ bool operator< (const Track& a, const Track& b)
 /*  Postcondition:
     check the assignment for the proper definition of < on Tracks
 */
-
+    COUNT++;
     if (a.artist == b.artist)
     {
         if (a.year < b.year)
@@ -150,7 +164,6 @@ bool operator< (const Track& a, const Track& b)
         return true;
 
     return false;
-
 }
 
 bool operator>(const Track& a, const Track& b)
@@ -439,6 +452,127 @@ void heap_sort(vector<El>& data)
     pick_heap(data);
 }
 
+ostream &operator<<(ostream &out, const Length length)
+{ // Precondition:
+    assert(true);
+    /*  Postcondition:
+    the value of length is shown via out in the format: minutes, ':', seconds (two digits)
+*/
+
+    if (length.seconds < 10)
+    {
+        out << length.minutes << ":0" << length.seconds;
+    }
+    else
+    {
+        out << length.minutes << ":" << length.seconds;
+    }
+
+    return out;
+}
+
+istream &operator>>(istream &in, Track &track)
+{ // Precondition:
+    assert(true);
+    /*  Postcondition:
+        the content of the first 8 lines from in have been read and are stored in the corresponding members of track.
+        The following (empty) line from in has also been read.
+    */
+    in >> track;
+    return in;
+}
+
+void show_track(Track track, TrackDisplay lt)
+{ // Precondition:
+    assert(true);
+    /*  Postcondition:
+    only the members of track are shown for which the corresponding member in lt is true.
+*/
+
+    if (lt.showArtist)
+        cout << track.artist << endl;
+    if (lt.showAlbum)
+        cout << track.cd << endl;
+    if (lt.showYear)
+        cout << track.year << endl;
+    if (lt.showTrack)
+        cout << track.track << endl;
+    if (lt.showTitle)
+        cout << track.title << endl;
+    if (lt.showTags)
+        cout << track.tags << endl;
+    if (lt.showLength)
+        cout << track.time << endl;
+    if (lt.showCountry)
+        cout << track.country << endl;
+}
+
+istream &operator>>(istream &in, Length &length)
+{ // Precondition:
+    assert(true);
+    /*  Postcondition:
+    the value of length has been read from in: first minutes, then ':', then seconds
+*/
+    char ignore;
+    in >> length.minutes >> ignore >> length.seconds;
+    return in;
+}
+
+int read_tracks(string filename, vector<Track> &tracks, bool show_content)
+{
+    // Precondition:
+    assert(true);
+    /*  Postcondition:
+        tracks is a copy of the tracks that are found in the file with file name filename, and result
+        is the number of tracks that have been read.
+        The read tracks are shown on screen only if show_content is true.
+    */
+    ifstream in_file(filename);
+    if (in_file.fail())
+        return 0;
+
+    while (!in_file.fail())
+    {
+        Track track;
+        TrackDisplay td = {true, true, true, true, true, true, true, true};
+        string emptyline;
+        string firstLine;
+        getline(in_file, firstLine);
+        if (firstLine.length() == 0)
+            break;
+        track.artist = firstLine;
+        getline(in_file, track.cd);
+        in_file >> track.year;
+        in_file >> track.track;
+        getline(in_file, track.title);
+        getline(in_file, track.title);
+        getline(in_file, track.tags);
+        in_file >> track.time;
+        getline(in_file, track.country);
+        getline(in_file, track.country);
+        getline(in_file, emptyline);
+
+        if (show_content)
+            show_track(track, td);
+        tracks.push_back(track);
+    }
+    return tracks.size();
+}
+void print_algorithm_counts(string algorithm_name, int algorithm_counts[]) {
+    cout << algorithm_name << ',';
+    for (int i = 0; i < NO_TEST_CASES; i++)
+    {
+        cout << algorithm_counts[i] << ',';
+    }
+    cout << endl;
+} 
+
+// void fillCountArrays(int counts[]) {
+//     for (int i = 0; i < NO_TEST_CASES*500; i=i+500)
+//     {
+        
+//     }
+// } 
 
 
 #ifndef TESTING
@@ -450,44 +584,61 @@ int main()
     The assignment queries have been executed and their result has been shown on screen.
     In case of the bonus assignment, the user has been able to query the database and has
     seen the results of these queries.
-*/
-	return 0;
+*/ 
+
+    string FILENAME = "Tracks.txt";
+    vector<Track> tracks;
+    read_tracks(FILENAME, tracks, false);
+
+    cout << "sorting_algorithm,";
+    for (int i = 500; i <= NO_TEST_CASES*500; i=i+500)
+    {
+        cout << i;
+        cout << ',';
+    }
+    cout << endl;
+
+    int insertionCounts[NO_TEST_CASES];
+    print_algorithm_counts("insertion_sort", insertionCounts);
+
+    int selectionCounts[NO_TEST_CASES];
+    print_algorithm_counts("selection_sort", selectionCounts);
+
+    int bubbleCounts[NO_TEST_CASES];
+    print_algorithm_counts("bubble_sort", bubbleCounts);
+
+    int heapCounts[NO_TEST_CASES];
+    print_algorithm_counts("heap_sort", heapCounts);
+    return 0;
 }
 #endif
 
 /*
- 
-
-         a.
-       The 3 nested for loops give that this function is O(n^3)
+    a.
+        The 3 nested for loops give that this function is O(n^3)
   
-      b.
-       3 nested for loops so O(n^3)
+    b.
+        3 nested for loops so O(n^3)
   
-       c.
-       1 while loop so O(n)
+    c.
+        1 while loop so O(n)
   
-       d.
-      This calls strlen(text) every iteration which has complexity O(n) (as it is looping through the whole string) this makes the complete function O(n*n) = O(n^2)
+    d.
+        This calls strlen(text) every iteration which has complexity O(n) (as it is looping through the whole string) this makes the complete function O(n*n) = O(n^2)
  
-      e.
-      This loops sqrt(n) times so this function does not have linear complexity, nor constant time. Therefore it is O(log n)
+    e.
+        This loops sqrt(n) times so this function does not have linear complexity, nor constant time. Therefore it is O(log n)
  
-      f.
-      This function has complexity O(n) because the statement push_back() inside the for loop only takes O(1) complexity and the loop itself O(n)
+    f.
+        This function has complexity O(n) because the statement push_back() inside the for loop only takes O(1) complexity and the loop itself O(n)
  
-      g.
-      Complexity is O(n) because the while loop ends when the vector is empty or when the vector has doubled in size.
-      You could also say that all the operations done inside the loop are O(1)
+    g.
+        Complexity is O(n) because the while loop ends when the vector is empty or when the vector has doubled in size.
+        You could also say that all the operations done inside the loop are O(1)
  
      h.
-      The while loop loops n times, the for loop inside of the while loop loops N times. So this function is O(n^2) times
+        The while loop loops n times, the for loop inside of the while loop loops N times. So this function is O(n^2) times
  
-       i.
-       O(1), no loops or O(n) functions are called.
-
-
-
-
- */
-
+    i.
+        O(1), no loops or O(n) functions are called.
+*/
