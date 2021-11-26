@@ -454,3 +454,40 @@ int main()
 	return 0;
 }
 #endif
+
+/*
+ 
+
+         a.
+       The 3 nested for loops give that this function is O(n^3)
+  
+      b.
+       3 nested for loops so O(n^3)
+  
+       c.
+       1 while loop so O(n)
+  
+       d.
+      This calls strlen(text) every iteration which has complexity O(n) (as it is looping through the whole string) this makes the complete function O(n*n) = O(n^2)
+ 
+      e.
+      This loops sqrt(n) times so this function does not have linear complexity, nor constant time. Therefore it is O(log n)
+ 
+      f.
+      This function has complexity O(n) because the statement push_back() inside the for loop only takes O(1) complexity and the loop itself O(n)
+ 
+      g.
+      Complexity is O(n) because the while loop ends when the vector is empty or when the vector has doubled in size.
+      You could also say that all the operations done inside the loop are O(1)
+ 
+     h.
+      The while loop loops n times, the for loop inside of the while loop loops N times. So this function is O(n^2) times
+ 
+       i.
+       O(1), no loops or O(n) functions are called.
+
+
+
+
+ */
+
