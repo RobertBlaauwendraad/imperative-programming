@@ -417,15 +417,15 @@ void push_down (vector<El>& data, int unsorted)
     data[0] ... data[unsorted] is a heap
 */
     int i = 0;
-    while ((data[i] < data[left_child(i)] && left_child(i) <= unsorted) || (data[i] < data[right_child(i)] && right_child(i) <= unsorted))
+    while ((left_child(i) <= unsorted && data[i] < data[left_child(i)]) || (right_child(i) <= unsorted && data[i] < data[right_child(i)]))
     {
         int j;
-        if (data[left_child(i)] >= data[right_child(i)])
+            if (data[left_child(i)] >= data[right_child(i)])
             j = left_child(i);
         else
-            j = right_child(i);
+                j = right_child(i);
         swap(data[i], data[j]);
-        i = j;   
+            i = j;   
     }
 }
 
@@ -615,17 +615,17 @@ int main()
     }
     cout << endl;
 
-    vector<int> insertionCounts;
-    measureSorting("insertion", insertionCounts);
-    print_algorithm_counts("insertion_sort", insertionCounts);
+    // vector<int> insertionCounts;
+    // measureSorting("insertion", insertionCounts);
+    // print_algorithm_counts("insertion_sort", insertionCounts);
 
-    vector<int> selectionCounts;
-    measureSorting("selection", selectionCounts);
-    print_algorithm_counts("selection_sort", selectionCounts);
+    // vector<int> selectionCounts;
+    // measureSorting("selection", selectionCounts);
+    // print_algorithm_counts("selection_sort", selectionCounts);
 
-    vector<int> bubbleCounts;
-    measureSorting("bubble", bubbleCounts);
-    print_algorithm_counts("bubble_sort", bubbleCounts);
+    // vector<int> bubbleCounts;
+    // measureSorting("bubble", bubbleCounts);
+    // print_algorithm_counts("bubble_sort", bubbleCounts);
 
     vector<int> heapCounts;
     measureSorting("heap", heapCounts);
