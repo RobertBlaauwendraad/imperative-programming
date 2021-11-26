@@ -9,8 +9,10 @@
 
 using namespace std;
 
-int COUNT = 0;
 const int NO_TEST_CASES = 13;
+const string FILENAME = "Tracks.txt";
+int g_count = 0;
+int countArray[NO_TEST_CASES] = {};
 
 struct Length
 {
@@ -132,7 +134,7 @@ bool operator== (const Track& a, const Track& b)
 /*  Postcondition:
     returns true only if all selector values of a are equal to their counterparts of b
 */
-    COUNT++;
+    g_count++;
     if (a.artist == b.artist &&
         a.cd == b.cd &&
         a.year == b.year &&
@@ -148,7 +150,7 @@ bool operator< (const Track& a, const Track& b)
 /*  Postcondition:
     check the assignment for the proper definition of < on Tracks
 */
-    COUNT++;
+    g_count++;
     if (a.artist == b.artist)
     {
         if (a.year < b.year)
@@ -518,7 +520,7 @@ istream &operator>>(istream &in, Length &length)
     return in;
 }
 
-int read_tracks(string filename, vector<Track> &tracks, bool show_content)
+int read_tracks(string filename, vector<Track> &tracks, bool show_content, int elements)
 {
     // Precondition:
     assert(true);
@@ -531,7 +533,8 @@ int read_tracks(string filename, vector<Track> &tracks, bool show_content)
     if (in_file.fail())
         return 0;
 
-    while (!in_file.fail())
+    int i = 0;
+    while (!in_file.fail() && i < elements)
     {
         Track track;
         TrackDisplay td = {true, true, true, true, true, true, true, true};
@@ -555,25 +558,43 @@ int read_tracks(string filename, vector<Track> &tracks, bool show_content)
         if (show_content)
             show_track(track, td);
         tracks.push_back(track);
+        i++;
     }
     return tracks.size();
 }
-void print_algorithm_counts(string algorithm_name, int algorithm_counts[]) {
+
+void print_algorithm_counts(string algorithm_name, vector<int>& countVector) {
     cout << algorithm_name << ',';
     for (int i = 0; i < NO_TEST_CASES; i++)
     {
-        cout << algorithm_counts[i] << ',';
+        cout << countVector[i] << ',';
     }
     cout << endl;
-} 
+}
 
-// void fillCountArrays(int counts[]) {
-//     for (int i = 0; i < NO_TEST_CASES*500; i=i+500)
-//     {
-        
-//     }
-// } 
+void measureSorting(string algorithm_name, vector<int>& countVector)
+{
+    // int countArray[NO_TEST_CASES];
+    vector<Track> tracks;
+    for (int i = 0; i < NO_TEST_CASES; i++)
+    {
+        read_tracks(FILENAME, tracks, false, (i+1)*500);
+ 
+        if(algorithm_name == "insertion")
+            insertion_sort(tracks);
+        else if (algorithm_name == "selection")
+            selection_sort(tracks);
+        else if (algorithm_name == "bubble")
+            bubble_sort(tracks);
+        else if (algorithm_name == "heap")
+            heap_sort(tracks);
 
+        countVector.push_back(g_count);
+        // countArray[i] = g_count;
+        g_count = 0;
+    };
+
+}
 
 #ifndef TESTING
 int main()
@@ -581,14 +602,10 @@ int main()
     assert (true) ;
 /*  Postcondition:
     the music database "Tracks.txt" has been read (if present and correctly formatted).
-    The assignment queries have been executed and their result has been shown on screen.
+    The assignment queries have beezn executed and their result has been shown on screen.
     In case of the bonus assignment, the user has been able to query the database and has
     seen the results of these queries.
 */ 
-
-    string FILENAME = "Tracks.txt";
-    vector<Track> tracks;
-    read_tracks(FILENAME, tracks, false);
 
     cout << "sorting_algorithm,";
     for (int i = 500; i <= NO_TEST_CASES*500; i=i+500)
@@ -598,16 +615,20 @@ int main()
     }
     cout << endl;
 
-    int insertionCounts[NO_TEST_CASES];
+    vector<int> insertionCounts;
+    measureSorting("insertion", insertionCounts);
     print_algorithm_counts("insertion_sort", insertionCounts);
 
-    int selectionCounts[NO_TEST_CASES];
+    vector<int> selectionCounts;
+    measureSorting("selection", selectionCounts);
     print_algorithm_counts("selection_sort", selectionCounts);
 
-    int bubbleCounts[NO_TEST_CASES];
+    vector<int> bubbleCounts;
+    measureSorting("bubble", bubbleCounts);
     print_algorithm_counts("bubble_sort", bubbleCounts);
 
-    int heapCounts[NO_TEST_CASES];
+    vector<int> heapCounts;
+    measureSorting("heap", heapCounts);
     print_algorithm_counts("heap_sort", heapCounts);
     return 0;
 }
