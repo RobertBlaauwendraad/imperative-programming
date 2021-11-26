@@ -120,12 +120,7 @@ bool operator== (const Track& a, const Track& b)
     if (a.artist == b.artist &&
         a.cd == b.cd &&
         a.year == b.year &&
-        a.track == b.track &&
-        a.title == b.title &&
-        a.tags == b.tags &&
-        a.time.minutes == b.time.minutes &&
-        a.time.seconds == b.time.seconds &&
-        a.country == b.country){
+        a.track == b.track){
         return true;
     }
 
@@ -140,36 +135,20 @@ bool operator< (const Track& a, const Track& b)
     check the assignment for the proper definition of < on Tracks
 */
 
-    if(a == b){
-        return false;
-    }
-
-    if(a.artist < b.artist){
-        return true;
-    } 
-
-    if(a.artist > b.artist){
-        return false;
-    }
-
-    if(a.artist == b.artist){
-        if(a.cd < b.cd){
+    if (a.artist == b.artist)
+    {
+        if (a.year < b.year)
             return true;
-        } 
-
-        if(a.cd > b.cd){
-            return false;
-        }
-
-        if(a.cd == b.cd){
-                if(a.track < b.track){
-                    return true;
-                }
-                if(a.track > b.track){
-                    return false;
-                }
-        }
+        if (a.cd < b.cd)
+            return true;
+        if (a.cd == b.cd)
+            if (a.track < b.track)
+                return true;
     }
+    
+    if (a.artist < b.artist)
+        return true;
+
     return false;
 
 }
@@ -423,15 +402,15 @@ void push_down (vector<El>& data, int unsorted)
     data[0] ... data[unsorted] is a heap
 */
     int i = 0;
-    while (data[i] < data[left_child(i)] || data[i] < data[right_child(i)])
+    while ((data[i] < data[left_child(i)] && left_child(i) <= unsorted) || (data[i] < data[right_child(i)] && right_child(i) <= unsorted))
     {
         int j;
-        if (data[left_child(i)] > data[right_child(i)])
+        if (data[left_child(i)] >= data[right_child(i)])
             j = left_child(i);
-        else 
+        else
             j = right_child(i);
         swap(data[i], data[j]);
-        i = j;
+        i = j;   
     }
 }
 
