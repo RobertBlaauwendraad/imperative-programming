@@ -109,13 +109,22 @@ bool palindrome3 (string text, int i, int j)
         return palindrome3(text, i+1, j-1);
 }
 
-// bool match_chars(string chars, int i, string source, int j) 
-// {
-//     // Precondition
-//     assert(true);
-//     // Postcondition
-//     //
-// }
+bool match_chars(string chars, int i, string source, int j) 
+{
+    // Precondition
+    assert(i >= 0 && j >= 0);
+    // Postcondition
+    // Checks if characters match in a string with skipping characters
+
+    if(i == chars.length())
+        return true;
+    else if (j == source.length())
+        return false;
+    else if (chars[i] == source[j])
+        return match_chars(chars, i+1, source, j);
+    else
+        return match_chars(chars, i, source, j+1);
+}
 
 #ifndef TESTING
 int main()

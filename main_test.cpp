@@ -55,7 +55,6 @@ TEST(palindrome, palindrome_3)
     EXPECT_TRUE(palindrome3("Madam, I'm Adam.", 0, 15));
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION match_chars
 TEST(matchCharacters, match_characters)
 {
     EXPECT_TRUE(match_chars("abc", 0, "it is a bag of cards", 0));
@@ -64,4 +63,3 @@ TEST(matchCharacters, match_characters)
     EXPECT_TRUE(match_chars("perm", 0, "imperative programming", 0));
     EXPECT_FALSE(match_chars("prime", 0, "imperative programming", 0));
 }
-END OF COMMENT */
