@@ -1,7 +1,7 @@
 #include "main.cpp"
 #include "gtest/gtest.h"
+#include "cmath"
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION naive_power
 TEST(power, naive_power_recursive)
 {
     for(int i=0; i<10; i++)
@@ -11,7 +11,6 @@ TEST(power, naive_power_recursive)
         EXPECT_EQ(naive_power(base, exponent), pow(base, exponent));
     }
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION power
 TEST(power, power_recursive)
