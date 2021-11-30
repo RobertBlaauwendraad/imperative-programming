@@ -9,7 +9,7 @@ int naive_power(int x, int n)
     assert(n >= 0);
     // Postcondition
     // Recursively calculate x^n
-    
+
     if (n == 0)
         return 1;
     return x * naive_power(x, n - 1);
@@ -33,13 +33,22 @@ int power(int x, int n)
         return x * pow * pow;
 }
 
-// bool palindrome1 (string text, int i, int j) 
-// {
-//     // Precondition
-//     assert(true);
-//     // Postcondition
-//     //
-// }
+bool palindrome1 (string text, int i, int j) 
+{
+    // Precondition
+    assert(i >= 0 && j <= static_cast<int>(text.length()));
+    // Postcondition
+    // Recursively check if text is a palindrome
+
+    if(i >= j)
+        return true;
+    else if(text.length() < 2 )
+        return true;
+    else if (text[i] != text[j])
+        return false;
+    else
+        return palindrome1(text, i+1, j-1);
+}
 
 // bool palindrome2 (string text, int i, int j) 
 // {

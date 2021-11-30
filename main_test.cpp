@@ -22,7 +22,6 @@ TEST(power, power_recursive)
     }
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION palindrome1
 TEST(palindrome, palindrome_1)
 {
     EXPECT_TRUE(palindrome1("", 0, 0));
@@ -33,7 +32,6 @@ TEST(palindrome, palindrome_1)
     EXPECT_FALSE(palindrome1("Imperative. Programming", 0, 22));
     EXPECT_FALSE(palindrome1("Madam, I'm Adam.", 0, 15));
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION palindrome2
 TEST(palindrome, palindrome_2)
