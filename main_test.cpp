@@ -33,7 +33,6 @@ TEST(palindrome, palindrome_1)
     EXPECT_FALSE(palindrome1("Madam, I'm Adam.", 0, 15));
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION palindrome2
 TEST(palindrome, palindrome_2)
 {
     EXPECT_TRUE(palindrome2("", 0, 0));
@@ -44,9 +43,7 @@ TEST(palindrome, palindrome_2)
     EXPECT_FALSE(palindrome2("Imperative. Programming", 0, 22));
     EXPECT_FALSE(palindrome2("Madam, I'm Adam.", 0, 15));
 }
-END OF COMMENT */
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION palindrome3
 TEST(palindrome, palindrome_3)
 {
     EXPECT_TRUE(palindrome3("", 0, 0));
@@ -57,7 +54,6 @@ TEST(palindrome, palindrome_3)
     EXPECT_FALSE(palindrome2("Imperative. Programming", 0, 22));
     EXPECT_TRUE(palindrome3("Madam, I'm Adam.", 0, 15));
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION match_chars
 TEST(matchCharacters, match_characters)
