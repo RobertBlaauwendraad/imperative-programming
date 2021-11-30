@@ -12,7 +12,6 @@ TEST(power, naive_power_recursive)
     }
 }
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION power
 TEST(power, power_recursive)
 {
     for(int i=0; i<10; i++)
@@ -22,7 +21,6 @@ TEST(power, power_recursive)
         EXPECT_EQ(power(base, exponent), pow(base, exponent));
     }
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION palindrome1
 TEST(palindrome, palindrome_1)
