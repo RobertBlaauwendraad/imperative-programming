@@ -9,6 +9,7 @@ int naive_power(int x, int n)
     assert(n >= 0);
     // Postcondition
     // Recursively calculate x^n
+    
     if (n == 0)
         return 1;
     return x * naive_power(x, n - 1);
