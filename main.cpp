@@ -6,7 +6,6 @@ using namespace std;
 
 struct Gift {
   int price;
-  string category;
   string name;
 };
 
@@ -31,14 +30,15 @@ int gifts(vector<Gift> wishlist, int gift, int budget) {
   // Returns remaining budget after recursively "buying" gifts from the given wishlist
 
   // Base cases
-  if (budget == 0) {
-    return 1;
-  } else if (budget < 0 || gift >= static_cast<int>(size(wishlist))) {
-    return 0;
+  if (budget <= 0 || gift >= static_cast<int>(size(wishlist))) {
+    return budget;
   } else {
     int with_gift = gifts(wishlist, gift+1, budget - wishlist[gift].price);
-    int without_gift = gifts(wishlist, gift+1, budget);
-    return with_gift + without_gift;
+    if (with_gift < 0 ) {
+      return budget;
+    } else {
+      return with_gift;
+    }
   }
 }
 
