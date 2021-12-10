@@ -1,4 +1,6 @@
 #include "main.cpp"
 #include "gtest/gtest.h"
 
-//Write your own unit tests for this assignment. Take a look at the documentation on Brightspace to help you out.
+TEST(gifts_test, returns_0) {
+  EXPECT_EQ(gifts(), 0);
+}
