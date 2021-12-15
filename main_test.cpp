@@ -7,7 +7,6 @@
 #include <cassert>
 #include <iostream>
 
-/* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION breadth_first
 TEST(bfs, challenge0)
 {
     vector< vector<char> > field = {
@@ -78,24 +77,23 @@ TEST(bfs, challenge4)
     };
     EXPECT_EQ(breadth_first(field), 12);
 }
-END OF COMMENT */
 
 /* UNCOMMENT THIS SECTION IF YOU HAVE DEVELOPED FUNCTION depth_first
 TEST(dfs, challenge0)
 {
-    vector< vector<char> > field = {
+    vector< vector<char> > board = {
         {'.','.','.','.','.','.'},
         {'.','.','.','.','.','.'},
         {'.','.','.','.','.','.'},
         {'.','.','.','.','.','.'},
         {'.','.','.','.','.','F'}
     };
-    EXPECT_EQ(depth_first(field), 0);
+    EXPECT_EQ(depth_first(board), 0);
 }
 
 TEST(dfs, challenge1)
 {
-    vector< vector<char> > field = {
+    vector< vector<char> > board = {
         {'.','.','.','.','r','.','.','.','.','.'},
         {'.','.','.','.','.','.','.','.','r','.'},
         {'.','.','.','.','.','.','.','.','.','.'},
@@ -103,12 +101,12 @@ TEST(dfs, challenge1)
         {'.','.','.','.','f','.','.','.','.','.'},
         {'.','.','.','.','.','.','.','x','.','.'}
     };
-    EXPECT_EQ(depth_first(field), 3);
+    EXPECT_EQ(depth_first(board), 3);
 }
 
 TEST(dfs, challenge2)
 {
-    vector< vector<char> > field = {
+    vector< vector<char> > board = {
         {'.','.','.','.','.','r','.'},
         {'r','.','.','.','.','.','.'},
         {'r','.','f','.','.','.','r'},
@@ -117,12 +115,12 @@ TEST(dfs, challenge2)
         {'.','.','.','.','r','.','.'},
         {'.','r','.','x','.','.','.'}
     };
-    EXPECT_EQ(depth_first(field), 4);
+    EXPECT_EQ(depth_first(board), 4);
 }
 
 TEST(dfs, challenge3)
 {
-    vector< vector<char> > field = {
+    vector< vector<char> > board = {
         {'r','r','r','r','r','r','r'},
         {'.','.','.','.','.','.','r'},
         {'.','r','r','r','.','.','.'},
@@ -131,12 +129,12 @@ TEST(dfs, challenge3)
         {'.','r','.','.','.','.','.'},
         {'f','.','.','.','.','r','.'}
     };
-    EXPECT_EQ(depth_first(field), 6);
+    EXPECT_EQ(depth_first(board), 6);
 }
 
 TEST(dfs, challenge4)
 {
-    vector< vector<char> > field = {
+    vector< vector<char> > board = {
         {'.','.','.','.','.','.','.','.','.','.','.','r','.','.'},
         {'r','.','.','.','.','.','.','.','.','.','.','.','.','.'},
         {'.','.','.','.','.','.','.','.','.','.','r','.','.','.'},
@@ -149,6 +147,6 @@ TEST(dfs, challenge4)
         {'.','.','.','.','.','.','.','.','.','.','.','r','.','r'},
         {'.','r','.','.','.','.','.','.','.','.','.','.','.','.'}
     };
-    EXPECT_EQ(depth_first(field), 12);
+    EXPECT_EQ(depth_first(board), 12);
 }
 END OF COMMENT */

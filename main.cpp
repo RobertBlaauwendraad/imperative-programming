@@ -7,41 +7,69 @@
 
 using namespace std;
 
-void output_puzzle(const vector<vector<char>>& field) {
+typedef char Cell;
+struct Position {
+  int col, row;
+};
+struct Puzzle {
+  vector<vector<Cell>> board;
+  Position finish;
+};
+struct Candidate {
+  Puzzle candidate;
+  int parent_candidate;
+};
+
+void output_puzzle(const Puzzle& puzzle) {
   // Precondition
   assert(true);
   // Post-condition
-  // Outputs the given field to the console
-
-  for (auto & i : field) {
+  // Outputs the given puzzle board to the console
+  for (auto & i : puzzle.board) {
     for (char j : i)
       cout << j << " ";
     cout << endl;
   }
 }
 
-vector<vector<char>> read_puzzle(const string& challenge_filename) {
+Puzzle read_puzzle(const string& challenge_filename) {
   // Precondition
   assert(true);
   // Post-condition
-  // Return the field read from the given file
+  // Reads puzzle from given file
 
   ifstream input(challenge_filename);
-  vector<vector<char>> field;
+  Puzzle puzzle;
   string line;
+
+  int y = 0;
   while (getline(input, line)) {
     vector<char> row = {line.begin(), line.end()};
-    field.push_back(row);
+    for (int x = 0; x < static_cast<int>(row.size()); ++x) {
+      if (row[x] == 'x') {
+        puzzle.finish = {x, y};
+      }
+    }
+    puzzle.board.push_back(row);
+    y++;
   }
-  return field;
+  return puzzle;
 }
 
-//int breadth_first(vector<vector<char>>& field)
-//{
-//    //Implement this function
-//}
-//
-//int depth_first(vector<vector<char>>& field)
+int breadth_first(vector<vector<char>>& field)
+{
+  // Precondition
+  // TODO: Write precondition
+  assert(true);
+  // Post-condition
+  // TODO: Write post-condition
+
+  int current_attempt = 0;
+
+  return current_attempt;
+}
+
+//int depth_first(vector<vector<char>>& board)
 //{
 //    //Implement this function
 //}
@@ -49,8 +77,8 @@ vector<vector<char>> read_puzzle(const string& challenge_filename) {
 #ifndef TESTING
 int main()
 {
-  vector<vector<char>> field = read_puzzle("challenge.0.0steps.txt");
-  output_puzzle(field);
+  Puzzle puzzle = read_puzzle("challenge.1.3steps.txt");
+  output_puzzle(puzzle);
   return 0;
 }
 #endif
