@@ -16,7 +16,6 @@ struct Position {
 struct Puzzle {
   Field field;
   Position flamingo;
-  Position finish;
 };
 struct Candidate {
   Puzzle candidate;
@@ -26,41 +25,32 @@ enum Direction {
   north, south, west, east
 };
 
-void output_puzzle(const Puzzle &puzzle) {
+void output_field(const Field &field) {
   // Precondition
   assert(true);
   // Post-condition
   // Outputs the given puzzle field to the console
-  for (auto &i: puzzle.field) {
+  for (auto &i: field) {
     for (Cell j: i)
       cout << j << " ";
     cout << endl;
   }
 }
 
-Puzzle read_puzzle(const string &challenge_filename) {
+Field read_field(const string &challenge_filename) {
   // Precondition
   assert(true);
   // Post-condition
   // Reads puzzle from given file
 
   ifstream input(challenge_filename);
-  Puzzle puzzle;
+  Field field;
   string line;
-  int y = 0;
   while (getline(input, line)) {
     Row row = {line.begin(), line.end()};
-    for (int x = 0; x < static_cast<int>(row.size()); ++x) {
-      if (row[x] == 'x') {
-        puzzle.finish = {x, y};
-      } else if (row[x] == 'f' || row[x] == 'F') {
-        puzzle.flamingo = {x, y};
-      }
-    }
-    puzzle.field.push_back(row);
-    y++;
+    field.push_back(row);
   }
-  return puzzle;
+  return field;
 }
 
 bool position_in_field(Field f, Position p) {
@@ -74,14 +64,6 @@ bool position_in_field(Field f, Position p) {
     return false;
   }
   return true;
-}
-
-bool puzzle_solved(Puzzle puzzle) {
-  // Precondition
-  assert(true);
-  // Post-condition
-  // Returns whether the puzzle is solved or not
-  return puzzle.field[puzzle.flamingo.y][puzzle.flamingo.x] == 'x';
 }
 
 bool operator==(Position p1, Position p2) {
@@ -99,15 +81,23 @@ bool operator==(const Puzzle &p1, const Puzzle &p2) {
   assert(true);
   // Post-condition
   // TODO: Write post-condition
-  return p1.flamingo == p2.flamingo && p1.finish == p2.finish && p1.field == p2.field;
+  return p1.flamingo == p2.flamingo && p1.field == p2.field;
 }
 
-bool puzzle_solved(const Puzzle &puzzle, Position arbitrary_position) {
+bool puzzle_solved(Puzzle puzzle) {
   // Precondition
   assert(true);
   // Post-condition
   // Returns whether the puzzle is solved or not
-  return arbitrary_position == puzzle.finish;
+  return puzzle.field[puzzle.flamingo.y][puzzle.flamingo.x] == 'x';
+}
+
+bool puzzle_solved(const Field &field, Position arbitrary_position) {
+  // Precondition
+  assert(true);
+  // Post-condition
+  // Returns whether the puzzle is solved or not
+  return field[arbitrary_position.y][arbitrary_position.x] == 'x';
 }
 
 bool hits_rock_or_rescue(Puzzle puzzle, Direction direction) {
@@ -122,42 +112,41 @@ bool hits_rock_or_rescue(Puzzle puzzle, Direction direction) {
 
   switch (direction) {
     case north:
-      while (!puzzle_solved(puzzle, {x, y})) {
-        if (puzzle.field[y - 1][x] == 'r') {
-          return true;
-        } else if (!position_in_field(puzzle.field, {x, y - 1})) {
+      while (!puzzle_solved(puzzle.field, {x, y})) {
+        if (!position_in_field(puzzle.field, {x, y - 1})) {
           return false;
+        } else if (puzzle.field[y - 1][x] == 'r') {
+          return true;
         }
         y--;
       }
       return true;
     case south:
-      cout << puzzle.field[5][7] << endl;
-      while (!puzzle_solved(puzzle, {x, y})) {
-        if (puzzle.field[y + 1][x] == 'r') {
-          return true;
-        } else if (!position_in_field(puzzle.field, {x, y + 1})) {
+      while (!puzzle_solved(puzzle.field, {x, y})) {
+        if (!position_in_field(puzzle.field, {x, y + 1})) {
           return false;
+        } else if (puzzle.field[y + 1][x] == 'r') {
+          return true;
         }
         y++;
       }
       return true;
     case west:
-      while (!puzzle_solved(puzzle, {x, y})) {
-        if (puzzle.field[y][x - 1] == 'r') {
-          return true;
-        } else if (!position_in_field(puzzle.field, {x - 1, y})) {
+      while (!puzzle_solved(puzzle.field, {x, y})) {
+        if (!position_in_field(puzzle.field, {x - 1, y})) {
           return false;
+        } else if (puzzle.field[y][x - 1] == 'r') {
+          return true;
         }
         x--;
       }
       return true;
     case east:
-      while (!puzzle_solved(puzzle, {x, y})) {
-        if (puzzle.field[y][x + 1] == 'r') {
-          return true;
-        } else if (!position_in_field(puzzle.field, {x + 1, y})) {
+      while (!puzzle_solved(puzzle.field, {x, y})) {
+        if (!position_in_field(puzzle.field, {x + 1, y})) {
           return false;
+        } else if (puzzle.field[y][x + 1] == 'r') {
+          return true;
         }
         x++;
       }
@@ -245,29 +234,49 @@ void tries(vector<Candidate> &c, int i, Direction direction) {
   }
 }
 
-int breadth_first(Puzzle start) {
+Position find_flamingo(Field field) {
   // Precondition
   // TODO: Write precondition
   assert(true);
   // Post-condition
   // TODO: Write post-condition
 
+  for (int row = 0; row < static_cast<int>(size(field)); ++row) {
+    for (int col = 0; col < static_cast<int>(size(field[row])); ++col) {
+      if (field[row][col] == 'f' || field[row][col] == 'F') {
+        return {col, row};
+      }
+    }
+  }
+  return {};
+}
+
+int breadth_first(Field &field) {
+  // Precondition
+  // TODO: Write precondition
+  assert(true);
+  // Post-condition
+  // TODO: Write post-condition
+
+  Position flamingo = find_flamingo(field);
+  Puzzle puzzle = {field, flamingo};
+
   int i = 0;
-  vector<Candidate> c = {{start, -1}};
+  vector<Candidate> c = {{puzzle, -1}};
 
   while (i < static_cast<int>(size(c)) && !puzzle_solved(c[i].candidate)) {
     Puzzle p = c[i].candidate;
     if (hits_rock_or_rescue(p, north)) {
-
+      tries(c, i, north);
     }
     if (hits_rock_or_rescue(p, south)) {
-
+      tries(c, i, south);
     }
     if (hits_rock_or_rescue(p, west)) {
-
+      tries(c, i, west);
     }
     if (hits_rock_or_rescue(p, east)) {
-
+      tries(c, i, east);
     }
     i++;
   }
@@ -286,20 +295,22 @@ int breadth_first(Puzzle start) {
 #ifndef TESTING
 
 int main() {
-  Puzzle puzzle = read_puzzle("challenge.1.3steps.txt");
-  output_puzzle(puzzle);
+  Field field = read_field("challenge.1.3steps.txt");
+  Position flamingo = find_flamingo(field);
+  Puzzle puzzle = {field, flamingo};
+  output_field(puzzle.field);
 
   if (hits_rock_or_rescue(puzzle, north)) {
     puzzle = slide(puzzle, north);
   }
   if (hits_rock_or_rescue(puzzle, east)) {
-    puzzle = slide(puzzle, north);
+    puzzle = slide(puzzle, east);
   }
   if (hits_rock_or_rescue(puzzle, south)) {
-    puzzle = slide(puzzle, north);
+    puzzle = slide(puzzle, south);
   }
   cout << endl;
-  output_puzzle(puzzle);
+  output_field(puzzle.field);
   return 0;
 }
 
